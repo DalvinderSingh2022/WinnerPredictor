@@ -1,0 +1,67 @@
+.w-100 {
+    width: 100%;
+}
+
+.container {
+    margin: 2em auto 0;
+    width: calc(100% - 4em);
+    max-width: 1020px;
+}
+
+form input {
+    border-bottom: 2px solid var(--purple-1);
+    background: var(--body);
+    border-radius: 4px;
+    cursor: default;
+    font-size: 1.1em;
+    font-weight: 500;
+    width: calc(100% - 2em);
+    min-width: fit-content;
+}
+
+input[type="reset"],
+input[type="submit"] {
+    cursor: pointer;
+    min-width: fit-content;
+}
+
+label {
+    align-self: flex-start;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+form .group {
+    max-width: 640px;
+}
+
+form img {
+    height: 75px;
+    box-shadow: 0 0 12px 8px var(--shadow);
+    border-bottom: 4px solid var(--purple-1);
+    cursor: pointer;
+    width: auto;
+}
+
+form .selected {
+    cursor: default;
+    height: 150px;
+}
+
+form .images {
+    max-width: 420px;
+}
+
+.signin .sub {
+    width: calc(50% - 4em);
+}
+
+.signin .avatars {
+    height: 100%;
+}
+
+@media screen and (max-width:1020px) {
+    .container form .sub {
+        width: calc(100% - 2em);
+    }
+}

@@ -1,0 +1,151 @@
+h3 {
+    background: var(--purple-1);
+    padding: 6px 42px 12px;
+    border-radius: 0 0 40px 40px;
+    color: var(--body);
+}
+
+.game .table::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    background: inherit;
+}
+
+.game .table {
+    position: relative;
+    background: var(--background);
+    font-size: 1.15em;
+    z-index: -9;
+    box-shadow: 0 0 12px 4px var(--shadow);
+    font-weight: bold;
+    border-radius: 0 0 20px 20px;
+    padding: 1em 2em;
+    max-width: calc(100vw - 4em);
+}
+
+.game img {
+    height: 200px;
+    width: 200px;
+}
+
+.game .between {
+    box-shadow: 0 0 4px 1px var(--purple-1);
+    margin: 0 1em;
+    width: 54px;
+    background: linear-gradient(100deg, var(--purple-1), var(--purple-2));
+    height: 60px;
+    padding: 8px 16px 16px;
+    font-size: 2.4em;
+}
+
+.game .team {
+    gap: 0;
+    background: var(--background);
+    border-radius: 12px;
+    box-shadow: 0 2px 34px 4px var(--shadow);
+    overflow: hidden;
+    border-left: 4px solid var(--purple-1);
+    border-right: 4px solid var(--purple-1);
+}
+
+.game .team.away {
+    border-right-color: var(--purple-2);
+    border-left-color: var(--purple-2);
+}
+
+.team .box {
+    max-width: calc(100vw - 2em);
+    width: 340px;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.game .team span {
+    padding: 8px 16px;
+    text-align: center;
+    border-bottom: 4px solid var(--purple-1);
+}
+
+.game .team.away span {
+    border-bottom-color: var(--purple-2);
+}
+
+.team button {
+    font-weight: bold;
+    font-size: .7em;
+    padding: 8px 24px 10px;
+    color: #fff;
+}
+
+.team.away button {
+    background: var(--purple-2);
+}
+
+.game .team button.disabled {
+    border: 4px solid var(--purple-1);
+    color: var(--color);
+    background: var(--background);
+    cursor: default;
+}
+
+.team.away button.disabled {
+    border-color: var(--purple-2);
+}
+
+.game .progress-box {
+    width: calc(100% - 2em);
+    border-radius: 50px;
+    max-width: 1020px;
+    background: var(--background);
+    margin: 1em 0;
+    gap: 0;
+}
+
+.game .progress-bar {
+    height: 30px;
+    width: 0;
+    position: relative;
+}
+
+.progress-bar.home {
+    border-radius: 50px 0 0 50px;
+    background: var(--purple-1);
+    box-shadow: 0 0 4px 1px var(--purple-1);
+}
+
+.progress-bar.away {
+    border-radius: 0 50px 50px 0;
+    background: var(--purple-2);
+    box-shadow: 0 0 4px 1px var(--purple-2);
+}
+
+.progress-bar.full {
+    border-radius: 50px;
+}
+
+.progress-bar .percent {
+    position: absolute;
+    font-weight: bold;
+    font-size: 1.2em;
+    border-radius: 50%;
+    height: 50px;
+    top: -10px;
+    width: 50px;
+    box-shadow: 0 0 4px 1px var(--purple-1);
+    background: linear-gradient(100deg, var(--purple-1), var(--purple-2));
+    left: calc(50% - 24px);
+    color: #fff;
+}
+
+@media screen and (max-width:1020px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .game .table {
+        margin: 0;
+    }
+}
