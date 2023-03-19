@@ -27,23 +27,32 @@ h3 {
 }
 
 .game img {
-    height: 200px;
     width: 200px;
+}
+
+.game .container {
+    justify-content: space-evenly;
+    width: calc(100vw - 2em);
 }
 
 .game .between {
     box-shadow: 0 0 4px 1px var(--purple-1);
     margin: 0 1em;
-    width: 54px;
+    min-width: 54px;
     background: linear-gradient(100deg, var(--purple-1), var(--purple-2));
     height: 60px;
     padding: 8px 16px 16px;
     font-size: 2.4em;
+    position: absolute;
 }
 
 .game .team {
-    gap: 0;
+    gap: 8px;
+    align-self: stretch;
+    width: calc(50% - 1em);
+    padding: 1em 0.5em;
     background: var(--background);
+    max-width: 380px;
     border-radius: 12px;
     box-shadow: 0 2px 34px 4px var(--shadow);
     overflow: hidden;
@@ -57,8 +66,6 @@ h3 {
 }
 
 .team .box {
-    max-width: calc(100vw - 2em);
-    width: 340px;
     font-size: 1.8em;
     font-weight: bold;
 }
@@ -141,11 +148,14 @@ h3 {
 }
 
 @media screen and (max-width:1020px) {
-    .container {
-        flex-direction: column;
-    }
-
     .game .table {
         margin: 0;
+    }
+}
+
+@media screen and (max-width:560px) {
+    .game .team span,
+    .game .between {
+        display: none;
     }
 }

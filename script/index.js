@@ -29,7 +29,7 @@ export function LoadMatches(list) {
         } else {
             MatchEl.innerHTML += `
             <div class="flex inner section j-evenly col nowrap">
-                <button class="pri">"View Match"</button>
+                <button class="pri">Match Center</button>
             </div>`;
             MatchEl.querySelector("button").onclick = () => {
                 if (Match.status() == "Live") {
@@ -51,7 +51,7 @@ export function LoadMatchToVote(Game, Parent) {
         Timer(Game, Parent);
     };
     Parent.innerHTML += `
-    <div class="flex inner container">
+    <div class="flex inner container nowrap">
         <div class="flex col home team home">
             <img src="${(Game.homeTeam).Image}">
             <div class="flex box inner col">
@@ -85,14 +85,21 @@ export function LoadMatchToVote(Game, Parent) {
         else if (Game.IsVoted() && (Game.status() == "Completed" || Game.status() == "Live")) {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
-
             document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
         }
-        else if (!currentUser() || Game.status() == "Completed" || Game.status() == "Live") {
+        else if (!currentUser() || Game.status() == "Live") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
-        }
-        else {
+        } else if (Game.status() == "Completed") {
+            btn.setAttribute("disabled", "true");
+            btn.classList.add("disabled");
+            
+            const winnerTeam = (Game.Winner.Logo === Game.awayTeam.Logo) ? "awayTeam" : "homeTeam";
+            const loserTeam = (Game.Winner.Logo === Game.homeTeam.Logo) ? "awayTeam" : "homeTeam";
+
+            document.querySelector(`button[data-team='${winnerTeam}']`).innerText = "Winner";
+            document.querySelector(`button[data-team='${loserTeam}']`).innerText = "Loser";
+        } else {
             btn.onclick = () => Game.vote(btn.getAttribute("data-team"));
         }
     });
@@ -157,7 +164,7 @@ function changeVotes(home, away, GameEl) {
 }
 
 export function LoadMatchVoters(Game, Parent) {
-        Parent.innerHTML = `
+    Parent.innerHTML = `
         <div class="flex row voter j-between nowrap heading">
             <div class="flex inner section nowrap ">
                 <span>Name</span>
@@ -239,12 +246,24 @@ export function currentUser() {
 
 (() => {
     const themeBtn = document.querySelector(".theme");
-    themeBtn.onclick = () => {
-        document.querySelector("body").classList.toggle("dark");
-        document.querySelector("body").classList.toggle("light");
-        themeBtn.querySelector("i").classList.toggle("fa-sun");
-        themeBtn.querySelector("i").classList.toggle("fa-moon");
+    const changeTheme = () => {
+        if (!localStorage.getItem("dark-theme")) {
+            document.querySelector("body").classList.add("dark");
+            themeBtn.querySelector("i").classList.remove("fa-moon");
+            themeBtn.querySelector("i").classList.add("fa-sun");
+        } else {
+            document.querySelector("body").classList.remove("dark");
+            themeBtn.querySelector("i").classList.add("fa-moon");
+            themeBtn.querySelector("i").classList.remove("fa-sun");
+        }
     }
+    themeBtn.onclick = () => {
+        !localStorage.getItem("dark-theme") ?
+            localStorage.setItem("dark-theme", true) :
+            localStorage.removeItem("dark-theme");
+        changeTheme();
+    };
+    changeTheme();
 })();
 
 (() => {
