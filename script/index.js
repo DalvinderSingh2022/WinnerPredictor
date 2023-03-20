@@ -87,13 +87,13 @@ export function LoadMatchToVote(Game, Parent) {
             btn.classList.add("disabled");
             document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
         }
-        else if (!currentUser() || Game.status() == "Live") {
+        else if (!currentUser() || Game.status() != "Today") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
         } else if (Game.status() == "Completed") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
-            
+
             const winnerTeam = (Game.Winner.Logo === Game.awayTeam.Logo) ? "awayTeam" : "homeTeam";
             const loserTeam = (Game.Winner.Logo === Game.homeTeam.Logo) ? "awayTeam" : "homeTeam";
 

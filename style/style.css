@@ -153,11 +153,6 @@ nav .btn {
     overflow: auto;
 }
 
-.leaderboard .row.voter {
-    max-width: 1020px;
-    min-width: 720px;
-}
-
 .row.voter {
     max-width: 720px;
     width: calc(100% - 4em);
@@ -229,6 +224,16 @@ nav .btn {
 .table .col {
     gap: 4px;
     border-bottom: 2px solid var(--purple-1);
+}
+
+.row .position {
+    position: absolute;
+    background: var(--purple-1);
+    padding: 5px 10px;
+    text-align: center;
+    top: 0;
+    left: -4px;
+    border-radius: 4px 0 4px;
 }
 
 @media screen and (max-width:1020px) {

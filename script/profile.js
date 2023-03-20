@@ -74,8 +74,7 @@ const Load = {
             const email = container.querySelector("#email").value;
             const password = container.querySelector("#password").value;
             const avtar = container.querySelector(".selected").src;
-            const time = new Date();
-            const user = new NewUser(name, email, password, avtar, time);
+            const user = new NewUser(name, email, password, avtar);
 
             if (!name || !email || !password) {
                 alert("complete form");
@@ -173,7 +172,7 @@ const Load = {
 
         LoadMatches((currentUser()).VotedMatches());
         document.querySelector(".head").classList.remove("hide");
-        
+
         container.querySelector("form").onsubmit = (e) => {
             e.preventDefault();
             const user = currentUser();

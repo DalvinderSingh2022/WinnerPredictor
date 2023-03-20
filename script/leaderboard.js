@@ -18,7 +18,8 @@ if (AllVoters[0]) {
         const user = AllVoters[0][i];
         const voterEl = document.createElement("div");
         voterEl.innerHTML = `
-        <div class="flex inner section nowrap j-start">
+        <span class="position">${i + 1}</span>
+        <div class="flex inner section nowrap">
             <img src="${user.Avatar}" alt="${user.Name}">
             <span>${user.Name}</span>
         </div>
@@ -27,9 +28,6 @@ if (AllVoters[0]) {
         </div>
         <div class="flex inner section nowrap">
             <span>${user.points()}</span>
-        </div>
-        <div class="flex inner section nowrap">
-            <span>${user.timeBefore()}</span>
         </div>`;
         voterEl.classList = "flex row j-between nowrap voter";
         votersEl.append(voterEl);

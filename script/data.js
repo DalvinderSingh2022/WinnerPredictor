@@ -5,12 +5,11 @@ export const defaultProfile = "https://media.istockphoto.com/id/1305665777/vecto
 const Usersdata = JSON.parse(localStorage.getItem("Users")) || [];
 export const Users = [];
 export class NewUser {
-    constructor(name, email, password, avatar, time, voted, signined) {
+    constructor(name, email, password, avatar, voted, signined) {
         this.Name = name;
         this.Email = email;
         this.Password = password;
         this.Avatar = avatar;
-        this.Time = time;
         this.Id = (name + email + password).toString().replaceAll(" ", "");
         this.voted = voted || [];
         this.Signined = signined;
@@ -49,17 +48,14 @@ export class NewUser {
         Users.splice(index, 1, this);
         localStorage.setItem("Users", JSON.stringify(Users));
     }
-    timeBefore = function () {
-        var time = 0;
-        for (let index = 0; index < this.voted.length; index++) {
-            time += this.voted[index].timeBefore;
-        }
-        return time;
-    }
     points = function () {
         var point = 0;
         for (let index = 0; index < this.voted.length; index++) {
-            point += Number(this.voted[index].points);
+            const vote = this.voted[index];
+            if (vote.team.Logo == vote.match.Winner.Logo) {
+                console.log(vote, vote.time[2])
+                point += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
+            };
         }
         return point;
     }
@@ -72,7 +68,7 @@ export class NewUser {
     }
 }
 for (let index = 0; index < Usersdata.length; index++) {
-    Users.push(new NewUser(Usersdata[index].Name, Usersdata[index].Email, Usersdata[index].Password, Usersdata[index].Avatar, Usersdata[index].Time, Usersdata[index].voted, Usersdata[index].Signined))
+    Users.push(new NewUser(Usersdata[index].Name, Usersdata[index].Email, Usersdata[index].Password, Usersdata[index].Avatar, Usersdata[index].voted, Usersdata[index].Signined))
 }
 
 export var Teams = [];
@@ -135,17 +131,17 @@ class NewSchedule {
             teamType: teamType,
             match: MatchFromId(this.Id),
             team: TeamByLogo(this[teamType].Logo),
-            timeBefore: Number(this.timeGap()[0]) * 60 * 24 + this.timeGap()[1] * 60 + Number(this.timeGap()[2]),
-            points: ((Number(this.timeGap()[0]) * 60 * 24 + this.timeGap()[1] * 60 + Number(this.timeGap()[2])) / 300).toFixed(0),
             time: this.timeGap(),
         });
         currentUser().updateUser();
         window.location.reload();
     }
     revote(teamType) {
-        currentUser().voteByMatch(this).teamType = teamType;
-        currentUser().voteByMatch(this).team = TeamByLogo(this[teamType].Logo);
-        currentUser().updateUser();
+        const vote = currentUser().voteByMatch(this);
+        vote.teamType = teamType;
+        vote.team = TeamByLogo(this[teamType].Logo);
+        vote.time = this.timeGap(),
+            currentUser().updateUser();
         window.location.reload();
     }
     timeGap() {
@@ -208,7 +204,7 @@ class NewSchedule {
         return currentUser() ? currentUser().voteByMatch(this) : false;
     }
 }
-Schedule.push(new NewSchedule("gt", "csk", "19-3-2023", "1:20pm", "Narendra Modi Stadium", "csk"));
+Schedule.push(new NewSchedule("gt", "csk", "31-3-2023", "1:20pm", "Narendra Modi Stadium", "csk"));
 Schedule.push(new NewSchedule("pk", "kkr", "1-4-2023", "3:30pm", "IS Bindra Stadium"));
 Schedule.push(new NewSchedule("lsg", "dc", "1-4-2023", "7:30pm", "Ekana Cricket Stadium"));
 Schedule.push(new NewSchedule("srh", "rr", "2-4-2023", "3:30pm", "Rajiv Gandhi International Stadium"));
