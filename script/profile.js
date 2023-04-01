@@ -70,13 +70,17 @@ const Load = {
         });
         container.querySelector("form").onsubmit = (e) => {
             e.preventDefault();
-            const name = container.querySelector("#name").value;
-            const email = container.querySelector("#email").value;
-            const password = container.querySelector("#password").value;
-            const avtar = container.querySelector(".selected").src;
-            const user = new NewUser(name, email, password, avtar);
+            const userinfo = {
+                Name: container.querySelector("#name").value,
+                Email: container.querySelector("#email").value,
+                Password: container.querySelector("#password").value,
+                Avatar: container.querySelector(".selected").src,
+                Voted: [],
+                Signined: false
+            }
+            const user = new NewUser(userinfo);
 
-            if (!name || !email || !password) {
+            if (!userinfo.Name || !userinfo.Email || !userinfo.Password) {
                 alert("complete form");
                 return;
             } else {
@@ -128,7 +132,7 @@ const Load = {
             const password = container.querySelector("#password").value;
             const userId = (name + email + password).toString().replaceAll(" ", "");
             const user = UserFrom(userId);
-
+            
             if (!name || !email || !password) {
                 alert("complete form");
                 return;

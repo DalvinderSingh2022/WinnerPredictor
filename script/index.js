@@ -1,4 +1,4 @@
-import { defaultProfile, Schedule, Users, Teams } from "./data.js";
+import { Schedule, Users, Teams } from "./data.js";
 
 export function LoadMatches(list) {
     document.querySelector(".matches").innerHTML = "";
@@ -73,24 +73,8 @@ export function LoadMatchToVote(Game, Parent) {
         <div class="progress-bar away"><span class="percent inner flex"></span></div>
     </div>`;
     Parent.querySelectorAll(".vote").forEach((btn) => {
-        if (Game.IsVoted()) {
-            const votedTeam = Game.IsVoted().teamType;
-            const secondTeam = (votedTeam == "homeTeam") ? "awayTeam" : "homeTeam";
-
-            document.querySelector(`button[data-team='${votedTeam}']`).innerText = "Voted";
-            document.querySelector(`button[data-team='${secondTeam}']`).innerText = "Revote";
-            document.querySelector(`button[data-team='${secondTeam}']`).onclick = () =>
-                Game.revote(document.querySelector(`button[data-team='${secondTeam}']`).getAttribute("data-team"));
-        }
-        else if (Game.IsVoted() && (Game.status() == "Completed" || Game.status() == "Live")) {
-            btn.setAttribute("disabled", "true");
-            btn.classList.add("disabled");
-            document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
-        }
-        else if (!currentUser() || Game.status() != "Today") {
-            btn.setAttribute("disabled", "true");
-            btn.classList.add("disabled");
-        } else if (Game.status() == "Completed") {
+        //completed game
+        if (Game.status() == "Completed") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
 
@@ -99,8 +83,40 @@ export function LoadMatchToVote(Game, Parent) {
 
             document.querySelector(`button[data-team='${winnerTeam}']`).innerText = "Winner";
             document.querySelector(`button[data-team='${loserTeam}']`).innerText = "Loser";
-        } else {
+            return;
+        }
+
+        //notSigneds
+        if (!currentUser()) {
+            btn.setAttribute("disabled", "true");
+            btn.classList.add("disabled");
+            return;
+        } 
+
+        //Signed and notVoted
+        if(!Game.IsVoted()) {
             btn.onclick = () => Game.vote(btn.getAttribute("data-team"));
+            return;
+        }
+
+        // Signed and Voted
+        if (Game.IsVoted()) {
+            const votedTeam = Game.IsVoted().teamType;
+            const secondTeam = (votedTeam == "homeTeam") ? "awayTeam" : "homeTeam";
+
+            document.querySelector(`button[data-team='${votedTeam}']`).innerText = "Voted";
+            document.querySelector(`button[data-team='${secondTeam}']`).innerText = "Revote";
+            document.querySelector(`button[data-team='${secondTeam}']`).onclick = () =>
+                Game.revote(document.querySelector(`button[data-team='${secondTeam}']`).getAttribute("data-team"));
+            return;
+        }
+
+        //Signed and Voted and match is live
+        if (Game.IsVoted() && Game.status() == "Live") {
+            btn.setAttribute("disabled", "true");
+            btn.classList.add("disabled");
+            document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
+            return;
         }
     });
     changeVotes(Game.homeTeamVoters.length, Game.awayTeamVoters.length, Parent);
@@ -136,8 +152,8 @@ function Timer(Match, Parent) {
 }
 
 function changeVotes(home, away, GameEl) {
-    const homePercent = ((home / (Number(home) + Number(away))) * 100).toFixed(0);
-    const awayPercent = ((away / (Number(home) + Number(away))) * 100).toFixed(0);
+    const homePercent = Math.floor((home / (Number(home) + Number(away))) * 100);
+    const awayPercent = 100 - homePercent;
 
     GameEl.querySelector(".progress-bar.home").style.width = `${homePercent}%`;
     GameEl.querySelector(".home .percent").innerText = `${homePercent}%`;
@@ -185,19 +201,11 @@ export function LoadMatchVoters(Game, Parent) {
                 <span>${user.Name}</span>
             </div>
             <div class="flex inner section nowrap">
-                <span>${Game.homeTeamVoters.filter(a => { return a.Id == user.Id }).length ? Game.homeTeam.Team() : Game.awayTeam.Team()}</span>
+                <span>${Game.homeTeamVoters.find(a => a.Id == user.Id) ? Game.homeTeam.Team() : Game.awayTeam.Team()}</span>
+            </div>
+            <div class="flex inner section nowrap">
+                <span>${user.voteByMatch(Game).time[0]} Days  ${user.voteByMatch(Game).time[1]} Hrs  ${user.voteByMatch(Game).time[2]} Min</span>
             </div>`;
-        if (Game.status() == "Completed") {
-            voterEl.innerHTML += `
-                <div class="flex inner section nowrap">
-                    <span>${user.voteByMatch(Game).points}</span>
-                </div>`;
-        } else {
-            voterEl.innerHTML += `
-                <div class="flex inner section nowrap">
-                    <span>${user.voteByMatch(Game).time[0]} Days  ${user.voteByMatch(Game).time[1]} Hrs  ${user.voteByMatch(Game).time[2]} Min</span>
-                </div>`;
-        }
         voterEl.classList = `flex row voter j-between nowrap ${currentUser() && (user.Id == currentUser().Id) ? "you" : ""}`;
         Parent.append(voterEl);
     }
@@ -277,5 +285,5 @@ export function currentUser() {
 
 (() => {
     const userImg = document.querySelector(".profile img");
-    userImg.src = currentUser() ? currentUser().Avatar : defaultProfile;
+    userImg.src = currentUser() ? currentUser().Avatar : "https://media.istockphoto.com/id/1305665777/vector/user-vector-icon-glyph-style-stock-illustration.jpg?s=612x612&w=0&k=20&c=3VFdegIWlVnAcin_lGl-hy0McBL96uiwAmz74EnQErc=";
 })();

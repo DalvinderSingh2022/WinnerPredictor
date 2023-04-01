@@ -11,8 +11,7 @@ for (const key in Schedule) {
 
 
 if (AllVoters[0]) {
-    AllVoters[0].sort((a, b) => { return a.voted.length - b.voted.length })
-        .sort((a, b) => { return b.timeBefore() - a.timeBefore() })
+    AllVoters[0].sort((a, b) => { return a.Voted.length - b.Voted.length })
         .sort((a, b) => { return b.points() - a.points() });
     for (let i = 0; i < AllVoters[0].length; i++) {
         const user = AllVoters[0][i];
@@ -24,7 +23,7 @@ if (AllVoters[0]) {
             <span>${user.Name}</span>
         </div>
         <div class="flex inner section nowrap">
-            <span>${user.voted.length}</span>
+            <span>${user.Voted.length}</span>
         </div>
         <div class="flex inner section nowrap">
             <span>${user.points()}</span>

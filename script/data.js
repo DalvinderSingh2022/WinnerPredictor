@@ -1,18 +1,15 @@
 import { TeamByLogo, MatchFromId, currentUser } from "./index.js";
 
-export const defaultProfile = "https://media.istockphoto.com/id/1305665777/vector/user-vector-icon-glyph-style-stock-illustration.jpg?s=612x612&w=0&k=20&c=3VFdegIWlVnAcin_lGl-hy0McBL96uiwAmz74EnQErc=";
-
-const Usersdata = JSON.parse(localStorage.getItem("Users")) || [];
 export const Users = [];
 export class NewUser {
-    constructor(name, email, password, avatar, voted, signined) {
-        this.Name = name;
-        this.Email = email;
-        this.Password = password;
-        this.Avatar = avatar;
-        this.Id = (name + email + password).toString().replaceAll(" ", "");
-        this.voted = voted || [];
-        this.Signined = signined;
+    constructor({ Name, Email, Password, Avatar, Voted, Signined }) {
+        this.Name = Name;
+        this.Email = Email;
+        this.Password = Password;
+        this.Avatar = Avatar;
+        this.Id = (Name + Email + Password).toString().replaceAll(" ", "");
+        this.Voted = Voted || [];
+        this.Signined = Signined;
     }
     addUser() {
         Users.push(this);
@@ -30,8 +27,8 @@ export class NewUser {
     VotedMatches() {
         var matches = []
         for (const key in Schedule) {
-            for (const i in this.voted) {
-                if (Schedule[key].Id == (this.voted)[i].match.Id) {
+            for (const i in this.Voted) {
+                if (Schedule[key].Id == (this.Voted)[i].matchId) {
                     matches.push(Schedule[key])
                 }
             }
@@ -50,26 +47,24 @@ export class NewUser {
     }
     points = function () {
         var point = 0;
-        for (let index = 0; index < this.voted.length; index++) {
-            const vote = this.voted[index];
-            if (vote.team.Logo == vote.match.Winner.Logo) {
-                console.log(vote, vote.time[2])
+        for (let index = 0; index < this.Voted.length; index++) {
+            const vote = this.Voted[index];
+            const match =  MatchFromId(this.Voted[index].matchId);
+            if (match.Winner && (vote.teamLogo == match.Winner.Logo)) {
                 point += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
             };
         }
         return point;
     }
     voteByMatch(Game) {
-        for (let index = 0; index < this.voted.length; index++) {
-            if (this.voted[index].match.Id == Game.Id) {
-                return this.voted[index];
+        for (let index = 0; index < this.Voted.length; index++) {
+            if (this.Voted[index].matchId == Game.Id) {
+                return this.Voted[index];
             }
         }
     }
 }
-for (let index = 0; index < Usersdata.length; index++) {
-    Users.push(new NewUser(Usersdata[index].Name, Usersdata[index].Email, Usersdata[index].Password, Usersdata[index].Avatar, Usersdata[index].voted, Usersdata[index].Signined))
-}
+(JSON.parse(localStorage.getItem("Users")) || []).forEach(user => Users.push(new NewUser(user)));
 
 export var Teams = [];
 class NewTeam {
@@ -127,10 +122,10 @@ class NewSchedule {
         this.awayTeamVoters = this.voters(this.awayTeam);
     }
     vote(teamType) {
-        currentUser().voted.push({
+        currentUser().Voted.push({
             teamType: teamType,
-            match: MatchFromId(this.Id),
-            team: TeamByLogo(this[teamType].Logo),
+            matchId: this.Id,
+            teamLogo: this[teamType].Logo,
             time: this.timeGap(),
         });
         currentUser().updateUser();
@@ -139,9 +134,9 @@ class NewSchedule {
     revote(teamType) {
         const vote = currentUser().voteByMatch(this);
         vote.teamType = teamType;
-        vote.team = TeamByLogo(this[teamType].Logo);
+        vote.teamLogo = this[teamType].Logo;
         vote.time = this.timeGap(),
-            currentUser().updateUser();
+        currentUser().updateUser();
         window.location.reload();
     }
     timeGap() {
@@ -177,8 +172,8 @@ class NewSchedule {
     voters(team = "") {
         var voters = [];
         for (const key in Users) {
-            for (let i = 0; i < Users[key].voted.length; i++) {
-                if ((Users[key].voted)[i].match.Id == this.Id && (!team || (Users[key].voted)[i].team.Logo == team.Logo)) {
+            for (let i = 0; i < Users[key].Voted.length; i++) {
+                if ((Users[key].Voted)[i].matchId == this.Id && (!team || (Users[key].Voted)[i].teamLogo == team.Logo)) {
                     voters.push(Users[key]);
                 }
             }
@@ -204,7 +199,7 @@ class NewSchedule {
         return currentUser() ? currentUser().voteByMatch(this) : false;
     }
 }
-Schedule.push(new NewSchedule("gt", "csk", "31-3-2023", "1:20pm", "Narendra Modi Stadium", "csk"));
+Schedule.push(new NewSchedule("gt", "csk", "31-3-2023", "1:20pm", "Narendra Modi Stadium", "gt"));
 Schedule.push(new NewSchedule("pk", "kkr", "1-4-2023", "3:30pm", "IS Bindra Stadium"));
 Schedule.push(new NewSchedule("lsg", "dc", "1-4-2023", "7:30pm", "Ekana Cricket Stadium"));
 Schedule.push(new NewSchedule("srh", "rr", "2-4-2023", "3:30pm", "Rajiv Gandhi International Stadium"));
