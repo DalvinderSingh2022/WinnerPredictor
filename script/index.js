@@ -24,7 +24,7 @@ export function LoadMatches(list) {
             <span>${Match.date} at ${Match.time}</span>
             <span>Venue: ${Match.stadium}</span>
         </div>`;
-        if (Match.status() == "Upcoming" || Match.status() == "Today") {
+        if (Match.status() == "Upcoming") {
             Timer(Match, MatchEl);
         } else {
             MatchEl.innerHTML += `
@@ -32,7 +32,7 @@ export function LoadMatches(list) {
                 <button class="pri">Match Center</button>
             </div>`;
             MatchEl.querySelector("button").onclick = () => {
-                if (Match.status() == "Live") {
+                if (Match.Id == Schedule[nextGameIndex()].Id) {
                     window.location.pathname = "home.html"
                 } else {
                     localStorage.setItem("match", JSON.stringify(Match.Id));
@@ -86,28 +86,16 @@ export function LoadMatchToVote(Game, Parent) {
             return;
         }
 
-        //notSigneds
+        //notSigneds 
         if (!currentUser()) {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
             return;
-        } 
-
-        //Signed and notVoted
-        if(!Game.IsVoted()) {
-            btn.onclick = () => Game.vote(btn.getAttribute("data-team"));
-            return;
         }
 
-        // Signed and Voted
-        if (Game.IsVoted()) {
-            const votedTeam = Game.IsVoted().teamType;
-            const secondTeam = (votedTeam == "homeTeam") ? "awayTeam" : "homeTeam";
-
-            document.querySelector(`button[data-team='${votedTeam}']`).innerText = "Voted";
-            document.querySelector(`button[data-team='${secondTeam}']`).innerText = "Revote";
-            document.querySelector(`button[data-team='${secondTeam}']`).onclick = () =>
-                Game.revote(document.querySelector(`button[data-team='${secondTeam}']`).getAttribute("data-team"));
+        //Signed and notVoted
+        if (!Game.IsVoted()) {
+            btn.onclick = () => Game.vote(btn.getAttribute("data-team"));
             return;
         }
 
@@ -116,6 +104,18 @@ export function LoadMatchToVote(Game, Parent) {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
             document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
+            return;
+        }
+
+        // Signed and Voted and match is not live
+        if (Game.IsVoted()) {
+            const votedTeam = Game.IsVoted().teamType;
+            const secondTeam = (votedTeam == "homeTeam") ? "awayTeam" : "homeTeam";
+
+            document.querySelector(`button[data-team='${votedTeam}']`).innerText = "Voted";
+            document.querySelector(`button[data-team='${secondTeam}']`).innerText = "Revote";
+            document.querySelector(`button[data-team='${secondTeam}']`).onclick = () =>
+                Game.revote(document.querySelector(`button[data-team='${secondTeam}']`).getAttribute("data-team"));
             return;
         }
     });
@@ -211,7 +211,7 @@ export function LoadMatchVoters(Game, Parent) {
     }
 }
 
-export function nextGameId() {
+export function nextGameIndex() {
     for (const key in Schedule) {
         if (Schedule[key].status() != "Completed") {
             return key;
