@@ -229,6 +229,7 @@ nav .btn {
 .row .position {
     position: absolute;
     background: var(--purple-1);
+    color: var(--body);
     padding: 5px 10px;
     text-align: center;
     top: 0;
