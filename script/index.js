@@ -195,6 +195,10 @@ export function LoadMatchVoters(Game, Parent) {
     for (const key in Game.voters()) {
         const user = Game.voters()[key];
         const voterEl = document.createElement("div");
+        const hrs = user.voteByMatch(Game).time[1] < 10 ? "0" + user.voteByMatch(Game).time[1] : user.voteByMatch(Game).time[1];
+        const mins = user.voteByMatch(Game).time[2] < 10 ? "0" + user.voteByMatch(Game).time[2] : user.voteByMatch(Game).time[2];
+        const secs = user.voteByMatch(Game).time[3] < 10 ? "0" + user.voteByMatch(Game).time[3] : user.voteByMatch(Game).time[3];
+
         voterEl.innerHTML = `
             <div class="flex inner section nowrap j-start">
                 <img src="${user.Avatar}" alt="${user.Name}">
@@ -204,7 +208,7 @@ export function LoadMatchVoters(Game, Parent) {
                 <span>${Game.homeTeamVoters.find(a => a.Id == user.Id) ? Game.homeTeam.Team() : Game.awayTeam.Team()}</span>
             </div>
             <div class="flex inner section nowrap">
-                <span>${user.voteByMatch(Game).time[0]} Days  ${user.voteByMatch(Game).time[1]} Hrs  ${user.voteByMatch(Game).time[2]} Min</span>
+                <span>${hrs} Hrs  ${mins} Min ${secs} Sec</span>
             </div>`;
         voterEl.classList = `flex row voter j-between nowrap ${currentUser() && (user.Id == currentUser().Id) ? "you" : ""}`;
         Parent.append(voterEl);

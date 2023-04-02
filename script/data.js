@@ -45,16 +45,20 @@ export class NewUser {
         Users.splice(index, 1, this);
         localStorage.setItem("Users", JSON.stringify(Users));
     }
-    points = function () {
-        var point = 0;
+    pointsAndMatches() {
+        var points = 0;
+        var matches = 0;
         for (let index = 0; index < this.Voted.length; index++) {
             const vote = this.Voted[index];
             const match = MatchFromId(this.Voted[index].matchId);
-            if (match.Winner && (vote.teamLogo == match.Winner.Logo)) {
-                point += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
-            };
+            if (match.Winner) {
+                matches++;
+                if (vote.teamLogo == match.Winner.Logo) {
+                    points += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
+                };
+            }
         }
-        return point;
+        return { points, matches };
     }
     voteByMatch(Game) {
         for (let index = 0; index < this.Voted.length; index++) {
@@ -72,7 +76,7 @@ class NewTeam {
         this.Logo = Logo;
         this.Image = image;
     }
-    Team = function () {
+    Team() {
         switch (this.Logo) {
             case "csk":
                 return "Chennai Super Kings";

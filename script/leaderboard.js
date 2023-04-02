@@ -1,34 +1,32 @@
-import { Schedule } from "./data.js";
+import { Users } from "./data.js";
+import { currentUser } from "./index.js";
 
 const votersEl = document.querySelector(".voters");
-const AllVoters = [];
+const Voters = [];
 
-for (const key in Schedule) {
-    if (Schedule[key].voters().length) {
-        AllVoters.push(Schedule[key].voters());
+Users.forEach(voter => {
+    if (voter.Voted.length) {
+        Voters.push(voter);
     }
-}
+});
 
+Voters.sort((a, b) => { return a.pointsAndMatches().matches - b.pointsAndMatches().matches })
+    .sort((a, b) => { return b.pointsAndMatches().points - a.pointsAndMatches().points });
 
-if (AllVoters[0]) {
-    AllVoters[0].sort((a, b) => { return a.Voted.length - b.Voted.length })
-        .sort((a, b) => { return b.points() - a.points() });
-    for (let i = 0; i < AllVoters[0].length; i++) {
-        const user = AllVoters[0][i];
-        const voterEl = document.createElement("div");
-        voterEl.innerHTML = `
-        <span class="position">${i + 1}</span>
+Voters.forEach((user, index) => {
+    const voterEl = document.createElement("div");
+    voterEl.innerHTML = `
+        <span class="position">${index + 1}</span>
         <div class="flex inner section nowrap">
             <img src="${user.Avatar}" alt="${user.Name}">
             <span>${user.Name}</span>
         </div>
         <div class="flex inner section nowrap">
-            <span>${user.Voted.length}</span>
+            <span>${user.pointsAndMatches().matches}</span>
         </div>
         <div class="flex inner section nowrap">
-            <span>${user.points()}</span>
+            <span>${user.pointsAndMatches().points}</span>
         </div>`;
-        voterEl.classList = "flex row j-between nowrap voter";
-        votersEl.append(voterEl);
-    }
-}
+    voterEl.classList = `flex row j-between nowrap voter ${currentUser() && (user.Id == currentUser().Id) ? "you" : ""}`;
+    votersEl.append(voterEl);
+});
