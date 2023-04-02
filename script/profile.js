@@ -36,13 +36,13 @@ const Load = {
                             alt="avatar">
                         <img src="https://media.istockphoto.com/id/1143507861/vector/man-avatar-in-circle-cartoon-guy-with-black-hair-beard-and-glasses.jpg?s=612x612&w=0&k=20&c=xx5Alt1KG4X3vZrq9S3DJi9HmAbqS-8lEPBU00ZwBR0="
                             alt="avatar">
-                        <img src="https://media.istockphoto.com/id/1165659250/vector/girl.jpg?s=612x612&w=0&k=20&c=PKP1DIC875yXlAL-n_t9cWG315T6Ta8hwNodwz-PAGY="
+                        <img src="https://media.istockphoto.com/id/1446465647/vector/avatar-portrait-of-a-young-caucasian-boy-man-in-round-frame-vector-illustration-in-cartoon.jpg?s=612x612&w=0&k=20&c=3rO9EcN_AAU9MyF1GutxL43YGS6pgss3GC0-ZaxxD9c="
                             alt="avatar">
-                        <img src="https://media.istockphoto.com/id/837117746/vector/girl-in-headphones-listening-music-and-smiling-vector-illustration-flat-cartoon-young-happy.jpg?s=612x612&w=0&k=20&c=Wq1Jf1Et19GvF76FFZGR--eDuYgabcnH9skq6pM1n8g="
+                        <img src="https://media.istockphoto.com/id/1140603488/vector/young-man-private-avatar-icon.jpg?s=612x612&w=0&k=20&c=XdHiYgg3BVsvmd9XZV9L_ZOvUOWUtWiE35SUOrDuXxQ="
                             alt="avatar">
                         <img src="https://media.istockphoto.com/id/1341252730/vector/male-profile-avatar-cartoon-style-icon-colorful-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=2BcsyI4RT8F0cSfQCZJ_lulFjVxShF1jrPL_WKOxLfc="
                             alt="avatar">
-                        <img src="https://media.istockphoto.com/id/1385793615/vector/cute-girl-avatar-flat-style.jpg?s=612x612&w=0&k=20&c=QI2CmpwUFletocojZwnbn0nVmYVEQdG8BENEalLvvUU="
+                        <img src="https://media.istockphoto.com/id/922946662/vector/vector-avatar-smiling-boy-facial-expression.jpg?s=612x612&w=0&k=20&c=f2IyJ3R3Xk-rcAc_laFfvqo5grPVpxEMEMpWsL8Y8SE="
                             alt="avatar">
                     </div>
                 </div>
