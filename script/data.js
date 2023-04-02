@@ -206,7 +206,7 @@ class NewSchedule {
 Schedule.push(new NewSchedule("gt", "csk", "31-3-2023", "1:20pm", "Narendra Modi Stadium", "gt"));
 Schedule.push(new NewSchedule("pk", "kkr", "1-4-2023", "3:30pm", "IS Bindra Stadium", "pk"));
 Schedule.push(new NewSchedule("lsg", "dc", "1-4-2023", "7:30pm", "Ekana Cricket Stadium", "lsg"));
-Schedule.push(new NewSchedule("srh", "rr", "2-4-2023", "3:30pm", "Rajiv Gandhi International Stadium"));
+Schedule.push(new NewSchedule("srh", "rr", "2-4-2023", "3:30pm", "Rajiv Gandhi International Stadium", "rr"));
 Schedule.push(new NewSchedule("rcb", "mi", "2-4-2023", "7:30pm", "M Chinnaswamy Stadium"));
 Schedule.push(new NewSchedule("csk", "lsg", "3-4-2023", "7:30pm", "MA Chidambaram Stadium"));
 Schedule.push(new NewSchedule("dc", "gt", "4-4-2023", "7:30pm", "Arun Jaitley Stadium"));
