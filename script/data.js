@@ -49,7 +49,7 @@ export class NewUser {
         var point = 0;
         for (let index = 0; index < this.Voted.length; index++) {
             const vote = this.Voted[index];
-            const match =  MatchFromId(this.Voted[index].matchId);
+            const match = MatchFromId(this.Voted[index].matchId);
             if (match.Winner && (vote.teamLogo == match.Winner.Logo)) {
                 point += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
             };
@@ -136,7 +136,7 @@ class NewSchedule {
         vote.teamType = teamType;
         vote.teamLogo = this[teamType].Logo;
         vote.time = this.timeGap(),
-        currentUser().updateUser();
+            currentUser().updateUser();
         window.location.reload();
     }
     timeGap() {
@@ -200,8 +200,8 @@ class NewSchedule {
     }
 }
 Schedule.push(new NewSchedule("gt", "csk", "31-3-2023", "1:20pm", "Narendra Modi Stadium", "gt"));
-Schedule.push(new NewSchedule("pk", "kkr", "1-4-2023", "3:30pm", "IS Bindra Stadium"));
-Schedule.push(new NewSchedule("lsg", "dc", "1-4-2023", "7:30pm", "Ekana Cricket Stadium"));
+Schedule.push(new NewSchedule("pk", "kkr", "1-4-2023", "3:30pm", "IS Bindra Stadium", "pk"));
+Schedule.push(new NewSchedule("lsg", "dc", "1-4-2023", "7:30pm", "Ekana Cricket Stadium", "lsg"));
 Schedule.push(new NewSchedule("srh", "rr", "2-4-2023", "3:30pm", "Rajiv Gandhi International Stadium"));
 Schedule.push(new NewSchedule("rcb", "mi", "2-4-2023", "7:30pm", "M Chinnaswamy Stadium"));
 Schedule.push(new NewSchedule("csk", "lsg", "3-4-2023", "7:30pm", "MA Chidambaram Stadium"));
