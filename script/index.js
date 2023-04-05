@@ -1,4 +1,4 @@
-import { Schedule, Users, Teams } from "./data.js";
+import { Schedule, Users } from "./data.js";
 
 export function LoadMatches(list) {
     document.querySelector(".matches").innerHTML = "";
@@ -11,13 +11,13 @@ export function LoadMatches(list) {
         </div>
         <div class="flex inner section j-between nowrap">
             <div class="flex inner j-between col team">
-                <img src="${(Match.homeTeam).Image}" alt="${(Match.homeTeam).Team()}">
-                <span>${(Match.homeTeam).Team()}</span>
+                <img src="${teamImage(Match.homeTeam)}" alt="${(Match.homeTeam).name}">
+                <span>${(Match.homeTeam).name}</span>
             </div>
             <p class="flex inner pri">vs</p>
             <div class="flex inner j-between col team">
-                <img src="${(Match.awayTeam).Image}" alt="${(Match.awayTeam).Team()}">
-                <span>${(Match.awayTeam).Team()}</span>
+                <img src="${teamImage(Match.awayTeam)}" alt="${(Match.awayTeam).name}">
+                <span>${(Match.awayTeam).name}</span>
             </div>
         </div>
         <div class="flex inner section j-evenly col nowrap">
@@ -53,17 +53,17 @@ export function LoadMatchToVote(Game, Parent) {
     Parent.innerHTML += `
     <div class="flex inner container nowrap">
         <div class="flex col home team home">
-            <img src="${(Game.homeTeam).Image}">
+            <img src="${teamImage(Game.homeTeam)}">
             <div class="flex box inner col">
-                <span>${(Game.homeTeam).Team()}</span>
+                <span>${(Game.homeTeam).name}</span>
                 <button class="vote pri" data-team="homeTeam">Vote</button>
             </div>
         </div>
         <span class="flex inner between pri">vs</span>
         <div class="flex col away team away">
-            <img src="${(Game.awayTeam).Image}">
+            <img src="${teamImage(Game.awayTeam)}">
             <div class="flex box inner col">
-                <span>${(Game.awayTeam).Team()}</span>
+                <span>${(Game.awayTeam).name}</span>
                 <button class="vote pri" data-team="awayTeam">Vote</button>
             </div>
         </div>
@@ -205,7 +205,7 @@ export function LoadMatchVoters(Game, Parent) {
                 <span>${user.Name}</span>
             </div>
             <div class="flex inner section nowrap">
-                <span>${Game.homeTeamVoters.find(a => a.Id == user.Id) ? Game.homeTeam.Team() : Game.awayTeam.Team()}</span>
+                <span>${Game.homeTeamVoters.find(a => a.Id == user.Id) ? Game.homeTeam.name : Game.awayTeam.name}</span>
             </div>
             <div class="flex inner section nowrap">
                 <span>${hrs} Hrs  ${mins} Min ${secs} Sec</span>
@@ -240,11 +240,28 @@ export function MatchFromId(Id) {
     }
 }
 
-export function TeamByLogo(Logo) {
-    for (const key in Teams) {
-        if (Teams[key]["Logo"] == Logo) {
-            return Teams[key];
-        }
+function teamImage(team) {
+    switch (team.shortname.toLowerCase()) {
+        case "csk":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Roundbig/CSKroundbig.png";
+        case "srh":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/SRH/Logos/Roundbig/SRHroundbig.png";
+        case "kkr":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Roundbig/KKRroundbig.png";
+        case "rr":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RR/Logos/Roundbig/RRroundbig.png";
+        case "mi":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Roundbig/MIroundbig.png";
+        case "pbks":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/PBKS/Logos/Roundbig/PBKSroundbig.png";
+        case "rcb":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Roundbig/RCBroundbig.png";
+        case "dc":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/DC/Logos/Roundbig/DCroundbig.png";
+        case "gt":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/GT/Logos/Roundbig/GTroundbig.png";
+        case "lsg":
+            return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/LSG/Logos/Roundbig/LSGroundbig.png";
     }
 }
 

@@ -132,7 +132,7 @@ const Load = {
             const password = container.querySelector("#password").value;
             const userId = (name + email + password).toString().replaceAll(" ", "");
             const user = UserFrom(userId);
-            
+
             if (!name || !email || !password) {
                 alert("complete form");
                 return;
