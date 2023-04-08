@@ -79,7 +79,7 @@ export function LoadMatchToVote(Game, Parent) {
             btn.classList.add("disabled");
 
             const winnerTeam = (Game.Winner.Logo === Game.awayTeam.Logo) ? "awayTeam" : "homeTeam";
-            const loserTeam = (Game.Winner.Logo === Game.homeTeam.Logo) ? "awayTeam" : "homeTeam";
+            const loserTeam = (Game.Winner.Logo === Game.homeTeam.Logo) ? "homeTeam" : "awayTeam";
 
             document.querySelector(`button[data-team='${winnerTeam}']`).innerText = "Winner";
             document.querySelector(`button[data-team='${loserTeam}']`).innerText = "Loser";
