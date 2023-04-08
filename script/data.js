@@ -180,8 +180,7 @@ Schedule.sort((a, b) => { return a.date.split("-")[0] - b.date.split("-")[0] })
     .sort((a, b) => { return a.date.split("-")[1] - b.date.split("-")[1] })
     .sort((a, b) => { return a.date.split("-")[2] - b.date.split("-")[2] });
 
-if ((!localStorage.getItem("api") || Schedule[nextGameIndex()].timeGap()[0] <= -5)
-    && (nextGameIndex() != Schedule.length - 1)) {
+if (!localStorage.getItem("api") || Schedule[nextGameIndex()].timeGap()[1] <= -5 || nextGameIndex() == Schedule.length - 1) {
     try {
         const response = await fetch('https://api.cricapi.com/v1/series_info?apikey=ce17e445-8670-4cd6-aed1-d94e863fe558&id=c75f8952-74d4-416f-b7b4-7da4b4e3ae6e');
         const data = await response.json();
