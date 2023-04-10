@@ -86,8 +86,8 @@ export function LoadMatchToVote(Game, Parent) {
             return;
         }
 
-        //notSigneds 
-        if (!currentUser()) {
+        //notSigneds or live match
+        if (!currentUser() || Game.status() == "Live") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
             return;
