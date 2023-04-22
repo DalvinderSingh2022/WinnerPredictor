@@ -72,7 +72,7 @@ export class NewUser {
 
 export var Schedule = [];
 class NewSchedule {
-    constructor({ homeTeam, awayTeam, date, time, stadium, winner }) {
+    constructor({ homeTeam, awayTeam, date, time, stadium, winner, name }) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.stadium = stadium;
@@ -82,6 +82,7 @@ class NewSchedule {
         this.Winner = winner();
         this.homeTeamVoters = this.voters(this.homeTeam);
         this.awayTeamVoters = this.voters(this.awayTeam);
+        this.name = name;
     }
     vote(teamType) {
         currentUser().Voted.push({
@@ -114,20 +115,6 @@ class NewSchedule {
         var hours = Math.floor((gapInMilli / 1000 / 60 / 60) % 24);
         var days = Math.floor((gapInMilli / 1000 / 60 / 60 / 24));
         return [days, hours, minutes, seconds];
-    }
-    format() {
-        for (const key in Schedule) {
-            if (Schedule[key].Id == this.Id) {
-                var index = key;
-            }
-        }
-        const LeagueStage = 70;
-        const PlayOffs = ["Qualifier-1", "Eliminator", "Qualifier-2", "Final"];
-        if (Number(index) + 1 <= LeagueStage) {
-            return `MATCH - ${Number(index) + 1}`;
-        } else {
-            return PlayOffs[(Number(index)) - LeagueStage];
-        }
     }
     voters(team = "") {
         var voters = [];
@@ -171,7 +158,8 @@ class NewSchedule {
             if (match.matchEnded) {
                 return match.status.includes(match.teamInfo[0].name) ? match.teamInfo[0] : match.teamInfo[1]
             }
-        }
+        },
+        name: match.name.split(",")[1]
     };
     Schedule.push(new NewSchedule(matchInfo));
 });
@@ -180,7 +168,7 @@ Schedule.sort((a, b) => { return a.date.split("-")[0] - b.date.split("-")[0] })
     .sort((a, b) => { return a.date.split("-")[1] - b.date.split("-")[1] })
     .sort((a, b) => { return a.date.split("-")[2] - b.date.split("-")[2] });
 
-if (!localStorage.getItem("api") || Schedule[nextGameIndex()].timeGap()[1] <= -5 || Schedule[nextGameIndex()].timeGap()[0] < 0 || nextGameIndex() == Schedule.length - 1) {
+if (!localStorage.getItem("api") || Schedule[nextGameIndex()].timeGap()[1] <= -5 || Schedule[nextGameIndex()].timeGap()[0] < -2 || nextGameIndex() == Schedule.length - 1) {
     try {
         const response = await fetch('https://api.cricapi.com/v1/series_info?apikey=ce17e445-8670-4cd6-aed1-d94e863fe558&id=c75f8952-74d4-416f-b7b4-7da4b4e3ae6e');
         const data = await response.json();

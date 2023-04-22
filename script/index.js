@@ -7,7 +7,7 @@ export function LoadMatches(list) {
         const Match = list[key];
         MatchEl.innerHTML = `
         <div class="flex inner status">
-            <div class="flex inner pri">${Match.format()} | ${Match.status().toUpperCase()}</div>
+            <div class="flex inner pri">${Match.name} | ${Match.status().toUpperCase()}</div>
         </div>
         <div class="flex inner section j-between nowrap">
             <div class="flex inner j-between col team">
@@ -46,7 +46,7 @@ export function LoadMatches(list) {
 }
 
 export function LoadMatchToVote(Game, Parent) {
-    Parent.innerHTML = `<h3>${Game.format()} | ${Game.status().toUpperCase()}</h3>`;
+    Parent.innerHTML = `<h3>${Game.name} | ${Game.status().toUpperCase()}</h3>`;
     if (Game.status() != "Live" && Game.status() != "Completed") {
         Timer(Game, Parent);
     };
