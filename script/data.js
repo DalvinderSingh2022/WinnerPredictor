@@ -45,9 +45,10 @@ export class NewUser {
         Users.splice(index, 1, this);
         localStorage.setItem("Users", JSON.stringify(Users));
     }
-    pointsAndMatches() {
+    pointsDetails() {
         var points = 0;
         var matches = 0;
+        var won = 0;
         for (let index = 0; index < this.Voted.length; index++) {
             const vote = this.Voted[index];
             const match = MatchFromId(this.Voted[index].matchId);
@@ -55,10 +56,11 @@ export class NewUser {
                 matches++;
                 if (vote.teamLogo == match.Winner.shortname.toLowerCase()) {
                     points += Number((vote.time[1] + vote.time[2] * (0.1)).toFixed(0));
+                    won++;
                 };
             }
         }
-        return { points, matches };
+        return { points, matches, won };
     }
     voteByMatch(Game) {
         for (let index = 0; index < this.Voted.length; index++) {

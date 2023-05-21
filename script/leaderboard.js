@@ -10,8 +10,9 @@ Users.forEach(voter => {
     }
 });
 
-Voters.sort((a, b) => { return a.pointsAndMatches().matches - b.pointsAndMatches().matches })
-    .sort((a, b) => { return b.pointsAndMatches().points - a.pointsAndMatches().points });
+Voters.sort((a, b) => { return a.pointsDetails().matches - b.pointsDetails().matches })
+    .sort((a, b) => { return a.pointsDetails().won - b.pointsDetails().won })
+    .sort((a, b) => { return b.pointsDetails().points - a.pointsDetails().points });
 
 Voters.forEach((user, index) => {
     const voterEl = document.createElement("div");
@@ -22,10 +23,13 @@ Voters.forEach((user, index) => {
             <span>${user.Name}</span>
         </div>
         <div class="flex inner section nowrap">
-            <span>${user.pointsAndMatches().matches}</span>
+            <span>${user.pointsDetails().matches}</span>
         </div>
         <div class="flex inner section nowrap">
-            <span>${user.pointsAndMatches().points}</span>
+            <span>${user.pointsDetails().won}</span>
+        </div>
+        <div class="flex inner section nowrap">
+            <span>${user.pointsDetails().points}</span>
         </div>`;
     voterEl.classList = `flex row j-between nowrap voter ${currentUser() && (user.Id == currentUser().Id) ? "you" : ""}`;
     votersEl.append(voterEl);
