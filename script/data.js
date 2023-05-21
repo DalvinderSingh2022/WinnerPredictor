@@ -149,8 +149,8 @@ class NewSchedule {
 
 (JSON.parse(localStorage.getItem("api")) || []).forEach((match) => {
     const matchInfo = {
-        homeTeam: match.teamInfo[0],
-        awayTeam: match.teamInfo[1],
+        homeTeam: match.teamInfo ? match.teamInfo[0] : { name: "TBC", shortname: "" },
+        awayTeam: match.teamInfo ? match.teamInfo[1] : { name: "TBC", shortname: "" },
         date: match.date.split("-").reverse().toString().replaceAll(",", "-"),
         time: new Date(new Date(match.dateTimeGMT).getTime() + 5.5 * 60 * 60000).toLocaleString().split(",")[1],
         stadium: match.venue,

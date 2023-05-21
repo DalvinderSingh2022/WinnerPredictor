@@ -262,6 +262,8 @@ function teamImage(team) {
             return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/GT/Logos/Roundbig/GTroundbig.png";
         case "lsg":
             return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/LSG/Logos/Roundbig/LSGroundbig.png";
+        default:
+            return "https://scores.iplt20.com/ipl/teamlogos/default-team-logo.png?v=4";
     }
 }
 
