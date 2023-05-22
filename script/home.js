@@ -7,7 +7,9 @@ const votersEl = document.querySelector(".voters");
 
 var nextMatches = [];
 for (let i = 1; i < 5; i++) {
-    nextMatches.push(Schedule[Number(nextGameIndex()) + i]);
+    if (Schedule[Number(nextGameIndex()) + i]) {
+        nextMatches.push(Schedule[Number(nextGameIndex()) + i])
+    };
 }
 
 LoadMatches(nextMatches);

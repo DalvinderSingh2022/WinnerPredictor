@@ -56,7 +56,7 @@ export function LoadMatchToVote(Game, Parent) {
             <img src="${teamImage(Game.homeTeam)}">
             <div class="flex box inner col">
                 <span>${(Game.homeTeam).name}</span>
-                <button class="vote pri" data-team="homeTeam">Vote</button>
+                <button class="vote pri" data-teamType="homeTeam" data-team=${Game.homeTeam.shortname}>Vote</button>
             </div>
         </div>
         <span class="flex inner between pri">vs</span>
@@ -64,7 +64,7 @@ export function LoadMatchToVote(Game, Parent) {
             <img src="${teamImage(Game.awayTeam)}">
             <div class="flex box inner col">
                 <span>${(Game.awayTeam).name}</span>
-                <button class="vote pri" data-team="awayTeam">Vote</button>
+                <button class="vote pri" data-teamType="awayTeam" data-team=${Game.awayTeam.shortname}>Vote</button>
             </div>
         </div>
     </div>
@@ -73,49 +73,40 @@ export function LoadMatchToVote(Game, Parent) {
         <div class="progress-bar away"><span class="percent inner flex"></span></div>
     </div>`;
     Parent.querySelectorAll(".vote").forEach((btn) => {
-        //completed game
-        if (Game.status() == "Completed") {
+        if (!currentUser() || Game.status() == "Live" || Game.status() == "Completed") {
             btn.setAttribute("disabled", "true");
             btn.classList.add("disabled");
-
-            const winnerTeam = (Game.Winner.Logo === Game.awayTeam.Logo) ? "awayTeam" : "homeTeam";
-            const loserTeam = (Game.Winner.Logo === Game.homeTeam.Logo) ? "homeTeam" : "awayTeam";
-
-            document.querySelector(`button[data-team='${winnerTeam}']`).innerText = "Winner";
-            document.querySelector(`button[data-team='${loserTeam}']`).innerText = "Loser";
-            return;
         }
 
-        //notSigneds or live match
-        if (!currentUser() || Game.status() == "Live") {
-            btn.setAttribute("disabled", "true");
-            btn.classList.add("disabled");
+        //completed game
+        if (Game.status() == "Completed") {
+            btn.innerText = (Game.Winner.shortname == btn.getAttribute("data-team")) ? "Winner" : "Loser";
             return;
         }
 
         //Signed and notVoted
         if (!Game.IsVoted()) {
-            btn.onclick = () => Game.vote(btn.getAttribute("data-team"));
+            btn.onclick = () => Game.vote(btn.getAttribute("data-teamType"));
             return;
         }
 
         //Signed and Voted and match is live
         if (Game.IsVoted() && Game.status() == "Live") {
-            btn.setAttribute("disabled", "true");
-            btn.classList.add("disabled");
-            document.querySelector(`button[data-team='${Game.IsVoted().teamType}']`).innerText = "Voted";
+            if (btn.getAttribute("data-teamType") == Game.IsVoted().teamType)
+                btn.innerText = "Voted";
             return;
         }
 
         // Signed and Voted and match is not live
         if (Game.IsVoted()) {
-            const votedTeam = Game.IsVoted().teamType;
-            const secondTeam = (votedTeam == "homeTeam") ? "awayTeam" : "homeTeam";
-
-            document.querySelector(`button[data-team='${votedTeam}']`).innerText = "Voted";
-            document.querySelector(`button[data-team='${secondTeam}']`).innerText = "Revote";
-            document.querySelector(`button[data-team='${secondTeam}']`).onclick = () =>
-                Game.revote(document.querySelector(`button[data-team='${secondTeam}']`).getAttribute("data-team"));
+            if (btn.getAttribute("data-teamType") == Game.IsVoted().teamType) {
+                btn.innerText = "Voted";
+            } else {
+                btn.innerText = "Revote";
+                btn.removeAttribute("disabled");
+                btn.classList.remove("disabled");
+                btn.onclick = () => Game.revote(btn.getAttribute("data-teamType"));
+            }
             return;
         }
     });
