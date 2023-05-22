@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0606937758.js" crossorigin="anonymous"></script>
+    <script src="script/index.js" type="module" defer></script>
+    <script src="script/account.js" type="module" defer></script>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/profile.css">
+    <title>Account</title>
+</head>
+
+<body>
+    <nav class="flex j-evenly">
+        <a href="#" class="btn hide menu flex inner"><i class="fa-solid fa-bars"></i></a>
+        <div class="flex inner buttons">
+            <a href="home.html">Home</a>
+            <a href="leaderboard.html">leaderboard</a>
+            <a href="matches.html">Matches</a>
+        </div>
+        <div class="flex inner">
+            <a href="profile.html" class="btn profile flex inner"><img /></a>
+            <button class="btn theme flex inner"><i class="fa-solid fa-moon"></i></button>
+        </div>
+    </nav>
+    <div class="flex inner account">
+        <div class="flex container signup row active">
+            <form class="flex col w-100 inner">
+                <div class="flex inner w-100">
+                    <div class="flex col inner sub w-100">
+                        <div class="flex inner group col w-100">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="flex inner group col w-100">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="email">
+                        </div>
+                        <div class="flex inner group col w-100">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="password">
+                        </div>
+                    </div>
+                    <div class="flex col sub w-100 inner avatars">
+                        <img src="https://media.istockphoto.com/id/1330099621/vector/african-man-avatar-portrait-of-a-young-african-man-in-retro-style-portrait-of-a-man.jpg?s=612x612&w=0&k=20&c=ej4BaE9xslGSawH2QMnrjlbHyLgvQW5IlzdpoQCMSO0="
+                            class="selected">
+                        <label for="avatar" class="flex inner w-100">Avatar</label>
+                        <div class="flex inner images">
+                            <img src="https://media.istockphoto.com/id/1330099621/vector/african-man-avatar-portrait-of-a-young-african-man-in-retro-style-portrait-of-a-man.jpg?s=612x612&w=0&k=20&c=ej4BaE9xslGSawH2QMnrjlbHyLgvQW5IlzdpoQCMSO0="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/682532778/vector/avatar-men-design.jpg?s=612x612&w=0&k=20&c=9ugn-kvMHEFPFJMUJkj-_r1cvvvPDrX5HY0_LiBZ4zc="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/1412003809/vector/flat-simple-cartoon-portrait-of-handsome-men-with-curly-hair-and-beard-isolated.jpg?s=612x612&w=0&k=20&c=jtDBMmCUdqpSuNAH8Vkm3t2o9wibbHnFBGkOB8QnkIg="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/1143507861/vector/man-avatar-in-circle-cartoon-guy-with-black-hair-beard-and-glasses.jpg?s=612x612&w=0&k=20&c=xx5Alt1KG4X3vZrq9S3DJi9HmAbqS-8lEPBU00ZwBR0="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/1446465647/vector/avatar-portrait-of-a-young-caucasian-boy-man-in-round-frame-vector-illustration-in-cartoon.jpg?s=612x612&w=0&k=20&c=3rO9EcN_AAU9MyF1GutxL43YGS6pgss3GC0-ZaxxD9c="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/1140603488/vector/young-man-private-avatar-icon.jpg?s=612x612&w=0&k=20&c=XdHiYgg3BVsvmd9XZV9L_ZOvUOWUtWiE35SUOrDuXxQ="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/1341252730/vector/male-profile-avatar-cartoon-style-icon-colorful-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=2BcsyI4RT8F0cSfQCZJ_lulFjVxShF1jrPL_WKOxLfc="
+                                alt="avatar">
+                            <img src="https://media.istockphoto.com/id/922946662/vector/vector-avatar-smiling-boy-facial-expression.jpg?s=612x612&w=0&k=20&c=f2IyJ3R3Xk-rcAc_laFfvqo5grPVpxEMEMpWsL8Y8SE="
+                                alt="avatar">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex inner group nowrap">
+                    <input class="pri" type="submit" value="SignUp">
+                    <input class="pri" type="reset" value="Reset">
+                </div>
+                <div class="flex inner group">
+                    <a class="link">SignIn to existing account</a>
+                </div>
+            </form>
+        </div>
+        <div class="flex container row signin">
+            <form class="flex col w-100 inner">
+                <div class="flex inner w-100">
+                    <div class="flex inner group col w-100">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="name">
+                    </div>
+                    <div class="flex inner group col w-100">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="email">
+                    </div>
+                    <div class="flex inner group col w-100">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="password">
+                    </div>
+                </div>
+                <div class="flex inner group nowrap">
+                    <input class="pri" type="submit" value="SignIn">
+                    <input class="pri" type="reset" value="Reset">
+                </div>
+                <div class="flex inner group">
+                    <a class="link">Create another account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="flex inner head col hide">
+        <h2 class="header flex inner">Voted Matches</h2>
+    </div>
+    <div class="flex matches"></div>
+</body>
+
+</html>

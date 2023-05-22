@@ -9,14 +9,20 @@
 }
 
 form input {
-    border-bottom: 2px solid var(--purple-1);
+    border: 2px solid transparent;
+    border-bottom-color: var(--purple-1);
     background: var(--body);
-    border-radius: 4px;
+    border-radius: 40px;
     cursor: default;
     font-size: 1.1em;
     font-weight: 500;
     width: calc(100% - 2em);
     min-width: fit-content;
+}
+
+form input:invalid {
+    border-top-color: rgb(185, 0, 0);
+    border-bottom-color: rgb(185, 0, 0);
 }
 
 input[type="reset"],
@@ -52,12 +58,24 @@ form .images {
     max-width: 420px;
 }
 
-.signin .sub {
+.container .sub {
     width: calc(50% - 4em);
 }
 
-.signin .avatars {
+.container .avatars {
     height: 100%;
+}
+
+.account .container {
+    top: -200%;
+    opacity: 0;
+    position: absolute;
+    transition: .4s ease;
+}
+
+.account .container.active {
+    opacity: 1;
+    top: 6em;
 }
 
 @media screen and (max-width:1020px) {
