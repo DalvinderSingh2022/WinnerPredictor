@@ -11,17 +11,17 @@ export function LoadMatches(list) {
         </div>
         <div class="flex inner section j-between nowrap">
             <div class="flex inner j-between col team">
-                <img src="${teamImage(Match.homeTeam)}" alt="${(Match.homeTeam).name}">
-                <span>${(Match.homeTeam).name}</span>
+                <img src="${teamImage(Match.firstTeam)}" alt="${(Match.firstTeam).teamName}">
+                <span>${(Match.firstTeam).teamName}</span>
             </div>
             <p class="flex inner pri">vs</p>
             <div class="flex inner j-between col team">
-                <img src="${teamImage(Match.awayTeam)}" alt="${(Match.awayTeam).name}">
-                <span>${(Match.awayTeam).name}</span>
+                <img src="${teamImage(Match.secondTeam)}" alt="${(Match.secondTeam).teamName}">
+                <span>${(Match.secondTeam).teamName}</span>
             </div>
         </div>
         <div class="flex inner section j-evenly col nowrap">
-            <span>${Match.date} at ${Match.time}</span>
+            <span>${new Date(Match.startDate).toDateString() + " at " + new Date(Match.startDate).toLocaleTimeString()}</span>
             <span>Venue: ${Match.stadium}</span>
         </div>`;
         if (Match.status() == "Upcoming") {
@@ -53,18 +53,18 @@ export function LoadMatchToVote(Game, Parent) {
     Parent.innerHTML += `
     <div class="flex inner container nowrap">
         <div class="flex col home team home">
-            <img src="${teamImage(Game.homeTeam)}">
+            <img src="${teamImage(Game.firstTeam)}">
             <div class="flex box inner col">
-                <span>${(Game.homeTeam).name}</span>
-                <button class="vote pri" data-teamType="homeTeam" data-team=${Game.homeTeam.shortname}>Vote</button>
+                <span>${(Game.firstTeam).teamName}</span>
+                <button class="vote pri" data-teamType="firstTeam" data-team=${Game.firstTeam.teamSName}>Vote</button>
             </div>
         </div>
         <span class="flex inner between pri">vs</span>
         <div class="flex col away team away">
-            <img src="${teamImage(Game.awayTeam)}">
+            <img src="${teamImage(Game.secondTeam)}">
             <div class="flex box inner col">
-                <span>${(Game.awayTeam).name}</span>
-                <button class="vote pri" data-teamType="awayTeam" data-team=${Game.awayTeam.shortname}>Vote</button>
+                <span>${(Game.secondTeam).teamName}</span>
+                <button class="vote pri" data-teamType="secondTeam" data-team=${Game.secondTeam.teamSName}>Vote</button>
             </div>
         </div>
     </div>
@@ -74,13 +74,18 @@ export function LoadMatchToVote(Game, Parent) {
     </div>`;
     Parent.querySelectorAll(".vote").forEach((btn) => {
         if (!currentUser() || Game.status() == "Live" || Game.status() == "Completed") {
-            btn.setAttribute("disabled", "true");
+            btn.setAttribute("disabled", true);
             btn.classList.add("disabled");
         }
 
         //completed game
         if (Game.status() == "Completed") {
-            btn.innerText = (Game.Winner.shortname == btn.getAttribute("data-team")) ? "Winner" : "Loser";
+            const team1Score = Game.firstTeam.inngs1 || { runs: 0, wickets: 0, overs: 0 };
+            const team2Score = Game.secondTeam.inngs1 || { runs: 0, wickets: 0, overs: 0 };
+
+            btn.innerText = (Game.firstTeam.teamSName == btn.getAttribute("data-team")) ?
+                `${team1Score.runs}/${team1Score.wickets} (${team1Score.overs} over)` :
+                `${team2Score.runs}/${team2Score.wickets} (${team2Score.overs} over)`;
             return;
         }
 
@@ -101,40 +106,40 @@ export function LoadMatchToVote(Game, Parent) {
         if (Game.IsVoted()) {
             if (btn.getAttribute("data-teamType") == Game.IsVoted().teamType) {
                 btn.innerText = "Voted";
+                btn.setAttribute("disabled", true);
+                btn.classList.add("disabled");
             } else {
                 btn.innerText = "Revote";
-                btn.removeAttribute("disabled");
-                btn.classList.remove("disabled");
                 btn.onclick = () => Game.revote(btn.getAttribute("data-teamType"));
             }
             return;
         }
     });
-    changeVotes(Game.homeTeamVoters.length, Game.awayTeamVoters.length, Parent);
+    changeVotes(Game.voters(Game.firstTeam).length, Game.voters(Game.secondTeam).length, Parent);
 }
 
 function Timer(Match, Parent) {
     Parent.innerHTML += `
     <div class="flex section nowrap table inner">
         <div class="flex inner col">
-            <span class="value days">${Match.timeGap()[0]}</span>
+            <span class="value days">${Match.timeGap()[0] >= 10 ? Match.timeGap()[0] : "0" + Match.timeGap()[0]}</span>
             <button>DAYS<buttonn>
         </div>    
         <div class="flex inner col">
-            <span class="value hours">${Match.timeGap()[1]}</span>
+            <span class="value hours">${Match.timeGap()[1] >= 10 ? Match.timeGap()[1] : "0" + Match.timeGap()[1]}</span>
             <button>HRS</button>
         </div>    
         <div class="flex inner col">
-            <span class="value minutes">${Match.timeGap()[2]}</span>
+            <span class="value minutes">${Match.timeGap()[2] >= 10 ? Match.timeGap()[2] : "0" + Match.timeGap()[2]}</span>
             <button>MIN</button>
         </div>    
         <div class="flex inner col">
-            <span class="value seconds">${Match.timeGap()[3]}</span>
+            <span class="value seconds">${Match.timeGap()[3] >= 10 ? Match.timeGap()[3] : "0" + Match.timeGap()[3]}</span>
             <button>SEC</button>
         </div>
     </div>`;
     setInterval(() => {
-        const timeGap = Match.timeGap()
+        const timeGap = Match.timeGap();
         Parent.querySelector(".days").innerText = timeGap[0] >= 10 ? timeGap[0] : "0" + timeGap[0];
         Parent.querySelector(".hours").innerText = timeGap[1] >= 10 ? timeGap[1] : "0" + timeGap[1];
         Parent.querySelector(".minutes").innerText = timeGap[2] >= 10 ? timeGap[2] : "0" + timeGap[2];
@@ -196,12 +201,15 @@ export function LoadMatchVoters(Game, Parent) {
                 <span>${user.Name}</span>
             </div>
             <div class="flex inner section nowrap">
-                <span>${Game.homeTeamVoters.find(a => a.Id == user.Id) ? Game.homeTeam.name : Game.awayTeam.name}</span>
+                <span>${user.voteByMatch(Game).team.teamName}</span>
             </div>
             <div class="flex inner section nowrap">
                 <span>${hrs} Hrs  ${mins} Min ${secs} Sec</span>
             </div>`;
-        voterEl.classList = `flex row voter j-between nowrap ${currentUser() && (user.Id == currentUser().Id) ? "you" : ""}`;
+        voterEl.classList = "flex row voter j-between nowrap";
+        if (currentUser() && (user.Id == currentUser().Id)) {
+            voterEl.classList.add("you");
+        }
         Parent.append(voterEl);
     }
 }
@@ -232,7 +240,7 @@ export function MatchFromId(Id) {
 }
 
 function teamImage(team) {
-    switch (team.shortname.toLowerCase()) {
+    switch (team.teamSName.toLowerCase()) {
         case "csk":
             return "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Roundbig/CSKroundbig.png";
         case "srh":
@@ -264,6 +272,14 @@ export function currentUser() {
             return Users[key];
         }
     }
+}
+
+export function alertBox(msg) {
+    const box = document.createElement("div");
+    box.classList = "flex inner alertbox";
+    box.innerHTML = `<div class="flex">${msg.toUpperCase()}</div>`;
+    document.body.appendChild(box);
+    setTimeout(() => document.body.removeChild(box), 2500);
 }
 
 (() => {

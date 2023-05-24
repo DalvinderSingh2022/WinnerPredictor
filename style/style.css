@@ -238,6 +238,21 @@ nav .btn {
     border-radius: 4px 0 4px;
 }
 
+.alertbox {
+    position: fixed;
+    width: 100%;
+    bottom: 2em;
+}
+
+.alertbox div {
+    max-width: 900px;
+    width: 80%;
+    background: var(--background);
+    border-radius: 8px;
+    border-left: 4px solid rgb(185, 0, 0);
+    border-right: 4px solid rgb(185, 0, 0);
+}
+
 @media screen and (max-width:1020px) {
     .row:not(.voter) {
         flex-direction: column;

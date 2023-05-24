@@ -1,7 +1,7 @@
 import { NewUser } from "./data.js";
-import { UserFrom, currentUser } from "./index.js";
+import { UserFrom, alertBox, currentUser } from "./index.js";
 
-if (currentUser()) window.location.pathname = "/profile.html";
+if (currentUser()) window.location.pathname = "profile.html";
 
 const SelectedImage = document.querySelector(".signup .selected");
 const Avatars = document.querySelector(".signup .images");
@@ -36,11 +36,13 @@ document.querySelector(".signup form").onsubmit = (e) => {
     const user = new NewUser(userinfo);
 
     if (!userinfo.Name || !userinfo.Email || !userinfo.Password) {
-        alert("complete form");
+        alertBox("complete form all fields are required");
         return;
     } else {
-        if (UserFrom(user.Email) || UserFrom(user.Name)) {
-            alert("same");
+        if (UserFrom(user.Email)) {
+            alertBox("Account exist with same email");
+        } else if (UserFrom(user.Name)) {
+            alertBox("Username not Available");
         } else {
             user.addUser();
             user.changeCurrentUser();
@@ -59,13 +61,13 @@ document.querySelector(".signin form").onsubmit = (e) => {
     const user = UserFrom(userId);
 
     if (!name || !email || !password) {
-        alert("complete form");
+        alertBox("complete form all fields are required");
     } else {
         if (UserFrom(userId)) {
             user.changeCurrentUser();
             window.location.reload();
         } else {
-            alert("not found");
+            alertBox("Account does not exist");
         };
     }
 }
