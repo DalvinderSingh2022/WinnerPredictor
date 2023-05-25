@@ -84,8 +84,8 @@ export function LoadMatchToVote(Game, Parent) {
             const team2Score = Game.secondTeam.inngs1 || { runs: 0, wickets: 0, overs: 0 };
 
             btn.innerText = (Game.firstTeam.teamSName == btn.getAttribute("data-team")) ?
-                `${team1Score.runs}/${team1Score.wickets} (${team1Score.overs} over)` :
-                `${team2Score.runs}/${team2Score.wickets} (${team2Score.overs} over)`;
+                `${team1Score.runs}/${team1Score.wickets} (${team1Score.overs})` :
+                `${team2Score.runs}/${team2Score.wickets} (${team2Score.overs})`;
             return;
         }
 
@@ -316,4 +316,15 @@ export function alertBox(msg) {
 (() => {
     const userImg = document.querySelector(".profile img");
     userImg.src = currentUser() ? currentUser().Avatar : "https://media.istockphoto.com/id/1305665777/vector/user-vector-icon-glyph-style-stock-illustration.jpg?s=612x612&w=0&k=20&c=3VFdegIWlVnAcin_lGl-hy0McBL96uiwAmz74EnQErc=";
+})();
+
+(() => {
+    const loader = document.createElement("div");
+    loader.classList = "flex loader inner";
+    loader.innerHTML = `<span></span>`;
+    document.body.appendChild(loader);
+    window.addEventListener("load", () => {
+        loader.classList.add("finish");
+        setTimeout(() => document.body.removeChild(loader), 750);
+    });
 })();
