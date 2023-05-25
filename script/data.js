@@ -80,9 +80,9 @@ class NewSchedule {
         this.stadium = stadium;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.Id = (this.firstTeam.teamSName.toLowerCase() + this.secondTeam.teamSName.toLowerCase() + this.startDate + this.stadium).replaceAll("-", "").replaceAll(" ", "");
         this.Winner = winner();
         this.name = name;
+        this.Id = (this.name.toLowerCase() + this.startDate + this.stadium).replaceAll("-", "").replaceAll(" ", "");
     }
     vote(teamType) {
         currentUser().Voted.push({
